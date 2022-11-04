@@ -9,7 +9,6 @@ use webhook::client::WebhookClient;
 use webhook::models::Embed;
 
 const WEATHER_FORECAST_API_URL: &str = "https://weather.tsukumijima.net/api/forecast/city/130010";
-const WEBHOOK_URL: &str = "";
 const WEBHOOK_USERNAME: &str = "お天気太郎";
 
 #[derive(Serialize)]
@@ -49,15 +48,17 @@ async fn main() -> Result<(), Error> {
 }
 
 async fn fetch_forecast() -> Result<AreaForcast, http_client::http_types::Error> {
+    let weather_forecast_api_url: String = std::env::var("TERU2_WEATHER_FORECAST_API_URL").unwrap_or(WEATHER_FORECAST_API_URL.to_string());
     let client = Client::new();
-    let mut request = Request::new(Method::Get, Url::parse(WEATHER_FORECAST_API_URL).unwrap());
+    let mut request = Request::new(Method::Get, Url::parse(weather_forecast_api_url.as_str()).unwrap());
     request.append_header("User-Agent", "teru2bot");
     let mut response = client.send(request).await?;
     response.body_json::<AreaForcast>().await
 }
 
 async fn send_to_discord(forecast: AreaForcast) {
-    let webhook_client = WebhookClient::new(WEBHOOK_URL);
+    let webhook_url = std::env::var("TERU2_DISCORD_WEBHOOK_URL").unwrap();
+    let webhook_client = WebhookClient::new(webhook_url.as_str());
     webhook_client
         .send(|message| {
             message
