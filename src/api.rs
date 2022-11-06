@@ -44,14 +44,7 @@ pub async fn fetch_forecast() -> Result<AreaForcast, http_client::http_types::Er
                     .fold(emb, |e: &mut Embed, forecast: &ForcastByDay| {
                         e.field(&forecast.date_label, forecast.to_string().as_str(), false)
                     })
-                    .title(
-                        format!(
-                            "{}({})",
-                            forecast.title,
-                            forecast.forecasts[0].detail.to_string()
-                        )
-                        .as_str(),
-                    )
+                    .title(forecast.title_with_weather_summary().as_str())
                     .description(forecast.public_time_formatted.as_str())
                     .url(forecast.link.as_str())
                     .author(

@@ -32,16 +32,24 @@ impl AreaForcast {
     pub fn todays_weather_image(self) -> ForecastImage {
         self.forecasts[0].image.clone()
     }
+
+    pub fn title_with_weather_summary(&self) -> String {
+        format!(
+            "{}({})",
+            self.title,
+            self.forecasts[0].detail.to_string()
+        )
+    }
 }
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
 pub struct ForcastByDay {
     pub date_label: String,
-    pub detail: WeatherDetail,
-    pub temperature: Temperatures,
-    pub chance_of_rain: ChanceOfRain,
-    pub image: ForecastImage,
+    detail: WeatherDetail,
+    temperature: Temperatures,
+    chance_of_rain: ChanceOfRain,
+    image: ForecastImage,
 }
 
 impl ToString for ForcastByDay {
@@ -61,8 +69,8 @@ impl ToString for ForcastByDay {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
-pub struct WeatherDetail {
-    pub weather: Option<String>,
+struct WeatherDetail {
+    weather: Option<String>,
 }
 
 impl ToString for WeatherDetail {
@@ -76,9 +84,9 @@ impl ToString for WeatherDetail {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
-pub struct Temperatures {
-    pub min: Temperature,
-    pub max: Temperature,
+struct Temperatures {
+    min: Temperature,
+    max: Temperature,
 }
 
 impl ToString for Temperatures {
@@ -93,8 +101,8 @@ impl ToString for Temperatures {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
-pub struct Temperature {
-    pub celsius: Option<String>,
+struct Temperature {
+    celsius: Option<String>,
 }
 
 impl ToString for Temperature {
@@ -105,7 +113,7 @@ impl ToString for Temperature {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "SCREAMING_SNAKE_CASE", serialize = "snake_case"))]
-pub struct ChanceOfRain {
+struct ChanceOfRain {
     t00_06: String,
     t06_12: String,
     t12_18: String,
@@ -123,9 +131,9 @@ impl ToString for ChanceOfRain {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
-pub struct ForecastImage {
-    pub title: String,
-    pub url: String,
+struct ForecastImage {
+    title: String,
+    url: String,
 }
 
 #[derive(Deserialize, Debug, Clone)]
