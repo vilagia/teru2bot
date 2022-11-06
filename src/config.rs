@@ -31,6 +31,7 @@ mod tests {
             let webhook_username = "test_webhook_name";
             std::env::set_var("TERU2_WEBHOOK_USERNAME", webhook_username.to_string());
             assert_eq!(AppConfig::webhook_username(), webhook_username.to_string());
+            std::env::remove_var("TERU2_WEBHOOK_USERNAME");
         }
     }
     mod weather_forecast_api_url {
@@ -48,6 +49,7 @@ mod tests {
             let url = "https://weather.example.com";
             std::env::set_var("TERU2_WEATHER_FORECAST_API_URL", url.to_string());
             assert_eq!(AppConfig::weather_forecast_api_url(), url.to_string());
+            std::env::remove_var("TERU2_WEATHER_FORECAST_API_URL");
         }
     }
 
@@ -67,6 +69,7 @@ mod tests {
             let url = "https://discord.example.com";
             std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", url.to_string());
             assert_eq!(AppConfig::webhook_url(), url.to_string());
+            std::env::remove_var("TERU2_DISCORD_WEBHOOK_URL");
         }
     }
 }
