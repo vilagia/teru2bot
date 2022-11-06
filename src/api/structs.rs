@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 
 #[derive(Deserialize, Debug, Clone)]
@@ -29,9 +29,9 @@ impl ToString for AreaForcast {
 }
 
 impl AreaForcast {
-    pub fn todays_weather_image(self) -> ForecastImage {
-        self.forecasts[0].image.clone()
-    }
+    // fn todays_weather_image(self) -> ForecastImage {
+    //     self.forecasts[0].image.clone()
+    // }
 
     pub fn title_with_weather_summary(&self) -> String {
         format!(
@@ -49,7 +49,7 @@ pub struct ForcastByDay {
     detail: WeatherDetail,
     temperature: Temperatures,
     chance_of_rain: ChanceOfRain,
-    image: ForecastImage,
+    // image: ForecastImage,
 }
 
 impl ToString for ForcastByDay {
@@ -132,8 +132,8 @@ impl ToString for ChanceOfRain {
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
 struct ForecastImage {
-    title: String,
-    url: String,
+    // title: String,
+    // url: String,
 }
 
 #[derive(Deserialize, Debug, Clone)]
