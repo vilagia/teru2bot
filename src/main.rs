@@ -1,16 +1,8 @@
-
 mod api;
 
 use aws_lambda_events::event::cloudwatch_events::CloudWatchEvent;
-use http_client::h1::H1Client as Client;
-use http_client::http_types::{Method, Request};
-use http_client::HttpClient;
 use lambda_runtime::{run, service_fn, Error, LambdaEvent};
-use reqwest::Url;
-use serde::{Deserialize, Serialize};
-use std::env;
-use webhook::client::WebhookClient;
-use webhook::models::Embed;
+use serde::Serialize;
 
 #[derive(Serialize)]
 struct Response {
@@ -46,4 +38,3 @@ async fn main() -> Result<(), Error> {
 
     run(service_fn(function_handler)).await
 }
-
