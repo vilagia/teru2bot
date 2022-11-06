@@ -1,4 +1,5 @@
 mod api;
+mod config;
 
 use aws_lambda_events::event::cloudwatch_events::CloudWatchEvent;
 use lambda_runtime::{run, service_fn, Error, LambdaEvent};
