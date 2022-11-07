@@ -58,6 +58,7 @@ mod tests {
 
         use crate::api;
         use crate::api::structs::AreaForcast;
+        use crate::config::AppConfig;
 
         #[tokio::test]
         async fn return_true_if_success() {
@@ -69,6 +70,8 @@ mod tests {
             std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", server.url("/discord"));
             let fixture_file_path = Path::new("./fixtures/forecast.example.json");
             let forecast = AreaForcast::from_json_file(fixture_file_path).unwrap();
+            let url = AppConfig::webhook_url();
+            assert_eq!(url, server.url("/discord"));
             let is_success = api::send_to_discord(forecast).await;
             std::env::remove_var("TERU2_DISCORD_WEBHOOK_URL");
             discord_mock.assert();
@@ -86,6 +89,8 @@ mod tests {
             std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", server.url("/discord"));
             let fixture_file_path = Path::new("./fixtures/forecast.example.json");
             let forecast = AreaForcast::from_json_file(fixture_file_path).unwrap();
+            let url = AppConfig::webhook_url();
+            assert_eq!(url, server.url("/discord"));
             api::send_to_discord(forecast).await;
         }
     }
