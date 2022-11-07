@@ -63,7 +63,7 @@ mod tests {
         async fn return_true_if_success() {
             let server = MockServer::start();
             let discord_mock = server.mock(|when, then| {
-                when.method(POST).path("/discord");
+                when.any_request();
                 then.status(204);
             });
             std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", server.url("/discord"));
