@@ -1,5 +1,4 @@
-use serde::{Deserialize};
-
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "snake_case"))]
@@ -34,11 +33,20 @@ impl AreaForcast {
     // }
 
     pub fn title_with_weather_summary(&self) -> String {
-        format!(
-            "{}({})",
-            self.title,
-            self.forecasts[0].detail.to_string()
-        )
+        format!("{}({})", self.title, self.forecasts[0].detail.to_string())
+    }
+
+    #[cfg(test)]
+    pub fn from_json_file(path: &std::path::Path) -> Result<Self, std::io::Error> {
+        // Open the file in read-only mode with buffer.
+
+        use std::{fs::File, io::BufReader};
+        let file = File::open(path)?;
+        let reader = BufReader::new(file);
+
+        let u = serde_json::from_reader(reader)?;
+
+        Ok(u)
     }
 }
 
