@@ -59,7 +59,7 @@ mod tests {
         use crate::api::structs::AreaForcast;
         use crate::config::AppConfig;
 
-        #[tokio::test]
+        #[tokio::test(flavor = "multi_thread")]
         async fn return_true_if_success() {
             let server = MockServer::start();
             let discord_mock = server.mock(|when, then| {
@@ -78,7 +78,7 @@ mod tests {
             assert!(is_success);
         }
 
-        #[tokio::test]
+        #[tokio::test(flavor = "multi_thread")]
         #[should_panic]
         async fn panic_if_error() {
             let server = MockServer::start();
