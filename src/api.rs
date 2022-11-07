@@ -53,8 +53,7 @@ mod tests {
     mod send_to_discord {
         use std::path::Path;
 
-        use httpmock::Method::POST;
-        use httpmock::MockServer;
+        use httpmock::prelude::*;
 
         use crate::api;
         use crate::api::structs::AreaForcast;
