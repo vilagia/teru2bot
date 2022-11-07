@@ -22,7 +22,7 @@ pub async fn fetch_forecast() -> Result<AreaForcast, http_client::http_types::Er
     response.body_json::<AreaForcast>().await
 }
 
-pub async fn send_to_discord(forecast: AreaForcast) {
+pub async fn send_to_discord(forecast: AreaForcast) -> bool {
     let webhook_client = WebhookClient::new(AppConfig::webhook_url().as_str());
     let chatbot_name: String = AppConfig::webhook_username();
     webhook_client
@@ -45,5 +45,52 @@ pub async fn send_to_discord(forecast: AreaForcast) {
             })
         })
         .await
-        .unwrap();
+        .unwrap()
+}
+
+#[cfg(test)]
+mod tests {
+    mod send_to_discord {
+        use std::path::Path;
+
+        use httpmock::prelude::*;
+
+        use crate::api;
+        use crate::api::structs::AreaForcast;
+        use crate::config::AppConfig;
+
+        #[tokio::test]
+        async fn return_true_if_success() {
+            let server = MockServer::start();
+            let discord_mock = server.mock(|when, then| {
+                when.any_request();
+                then.status(204);
+            });
+            std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", server.url("/discord"));
+            let fixture_file_path = Path::new("./fixtures/forecast.example.json");
+            let forecast = AreaForcast::from_json_file(fixture_file_path).unwrap();
+            let url = AppConfig::webhook_url();
+            assert_eq!(url, server.url("/discord"));
+            let is_success = api::send_to_discord(forecast).await;
+            std::env::remove_var("TERU2_DISCORD_WEBHOOK_URL");
+            discord_mock.assert();
+            assert!(is_success);
+        }
+
+        #[tokio::test]
+        #[should_panic]
+        async fn panic_if_error() {
+            let server = MockServer::start();
+            server.mock(|when, then| {
+                when.method(POST).path("/discord");
+                then.status(400);
+            });
+            std::env::set_var("TERU2_DISCORD_WEBHOOK_URL", server.url("/discord"));
+            let fixture_file_path = Path::new("./fixtures/forecast.example.json");
+            let forecast = AreaForcast::from_json_file(fixture_file_path).unwrap();
+            let url = AppConfig::webhook_url();
+            assert_eq!(url, server.url("/discord"));
+            api::send_to_discord(forecast).await;
+        }
+    }
 }
