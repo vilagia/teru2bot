@@ -2462,9 +2462,9 @@ dependencies = [
 
 [[package]]
 name = "webhook"
-version = "2.1.1"
+version = "2.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c98d8570d1e493716eb68706fc8da230a92d5e412b9cfa1d5f291039c1688999"
+checksum = "09d801ea0225da29d32c85b21d0cb12ed628783f5fa1fbe226e586a3ef6ca96f"
 dependencies = [
  "hyper",
  "hyper-tls",
