@@ -269,9 +269,9 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
 name = "aws_lambda_events"
-version = "0.7.2"
+version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20e4623e6898c4590b27eb26d64f498513b9e4c7b52537f64f75d3f423483c51"
+checksum = "a19b34cce92060dfb0bdab64b7f4e534c99ed0b7be7ba4a776972021919ae217"
 dependencies = [
  "base64 0.13.1",
  "bytes",
@@ -283,6 +283,7 @@ dependencies = [
  "query_map",
  "serde",
  "serde_derive",
+ "serde_dynamo",
  "serde_json",
  "serde_with",
 ]
@@ -1771,6 +1772,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.103",
+]
+
+[[package]]
+name = "serde_dynamo"
+version = "4.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "286cb1b4693202e4783f400bb8b89f1252cb48a77c6cbfcc47b3381c5cde89cc"
+dependencies = [
+ "base64 0.21.0",
+ "serde",
 ]
 
 [[package]]
